@@ -50,14 +50,16 @@ def main(client: AppleStoreClient):
 
     if store_name_lst != client.instock_storename_lst:
         instock_msg = (
-            f"[IN STOCK!] {len(store_name_lst)}/{len(resp_store_lst)} stores: "
+            f"[🔥 IN STOCK!] {len(store_name_lst)}/{len(resp_store_lst)} stores: \n"
             f"{', '.join(store_name_lst)}"
         )
         logger.warning(instock_msg)
 
         client.instock_storename_lst = store_name_lst
     else:
-        logger.info(f"['OUT OF STOCK'] {len(resp_store_lst)} stores received. Sleeping {random_gap} s")
+        fairview_store = resp_store_lst[0]
+        fv_pickup_display = fairview_store.partsAvailability.MU6Q3VC_A.pickupDisplay
+        logger.info(f"['OUT OF STOCK'] {len(resp_store_lst)} stores received. Fairview: {fv_pickup_display}. Sleeping {random_gap} s")
     
     sleep_pro(random_gap)
 
