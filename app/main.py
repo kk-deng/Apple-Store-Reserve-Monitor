@@ -57,9 +57,15 @@ def main(client: AppleStoreClient):
 
         client.instock_storename_lst = store_name_lst
     else:
-        fairview_store = resp_store_lst[0]
-        fv_pickup_display = fairview_store.partsAvailability.MU6Q3VC_A.pickupDisplay
-        logger.info(f"['OUT OF STOCK'] {len(resp_store_lst)} stores received. Fairview: {fv_pickup_display}. Sleeping {random_gap} s")
+        store_availability_lst = []
+        for store in resp_store_lst[:3]:
+            store_name = store.storeName
+            pickup_display = store.partsAvailability.MU6Q3VC_A.pickupDisplay
+            store_availability_lst.append(f"'{store_name}': {pickup_display}")
+
+        store_short_msg = ' | '.join(store_availability_lst)
+
+        logger.info(f"['OUT OF STOCK'] {len(resp_store_lst)} stores received. Sleeping {random_gap} s: {store_short_msg}")
     
     sleep_pro(random_gap)
 
